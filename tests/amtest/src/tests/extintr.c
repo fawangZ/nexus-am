@@ -57,7 +57,7 @@ void do_wfi() {
 //   asm volatile("li ra, MSTATUS_MPP&(MSTATUS_MPP>>1); csrs mstatus, ra; mret");
 // }
 
-#if defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH)
+#if defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) || defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
   const uint32_t MAX_RAND_ITER = 2;
 #else
   const uint32_t MAX_RAND_ITER = 50;
@@ -213,7 +213,7 @@ void external_intr() {
   // external_trigger(true, CONTEXT_M);
   // external_trigger(false, CONTEXT_S);
 
-#if !defined(__ARCH_RISCV64_XS_SOUTHLAKE) && !defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH)
+#if !defined(__ARCH_RISCV64_XS_SOUTHLAKE) && !defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) || defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
   plic_intr_init();
   random_trigger();
 #endif

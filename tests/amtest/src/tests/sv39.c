@@ -15,6 +15,8 @@
 static char *sv39_alloc_base = (char *)(0xc0000000UL);
 #elif defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH)
 static char *sv39_alloc_base = (char *)(0x2040000000UL);
+#elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+static char *sv39_alloc_base = (char *)(0x1040000000UL);
 #else
   // invalid arch
 #endif
@@ -106,6 +108,14 @@ void sv39_test() {
   char *w_ptr = (char *)(0x2100000000UL);
   char *r_ptr = (char *)(0x2200000000UL);
   char *fault_ptr = (char *)(0x2300000000UL);
+#elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+  _map(&kas, (void *)0x1100000000UL, (void *)0x1000020000, PTE_W | PTE_R | PTE_A | PTE_D);
+  _map(&kas, (void *)0x1200000000UL, (void *)0x1000020000, PTE_R | PTE_A | PTE_D);
+  _map(&kas, (void *)0x1300000000UL, (void *)0x1000020000, PTE_A | PTE_D);
+  printf("memory map done\n");
+  char *w_ptr = (char *)(0x1100000000UL);
+  char *r_ptr = (char *)(0x1200000000UL);
+  char *fault_ptr = (char *)(0x1300000000UL);
 #else
   // invalid arch
   _halt(1);
@@ -167,6 +177,20 @@ void sv39_ppn_af_test() {
   printf("memory map done\n");
   char *w_ptr = (char *)(0x2100000000UL);
   char *r_ptr = (char *)(0x2200000000UL);
+  char *fault_ptr[100] = {0};
+  for (int i = 0; i < 100; i++) {
+    fault_ptr[i] = (char *)(addr + 0x1000 * i);
+  }
+#elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+  _map(&kas, (void *)0x1100000000UL, (void *)0x1000020000, PTE_W | PTE_R | PTE_A | PTE_D);
+  _map(&kas, (void *)0x1200000000UL, (void *)0x1000020000, PTE_W | PTE_R | PTE_A | PTE_D);
+  uint64_t addr = 0x1300000000UL;
+  for (int i = 0; i < 100; i++) {
+    _map_fault(&kas, (void *)(addr + 0x1000 * i), (void *)0x1000020000, PTE_W | PTE_R | PTE_A | PTE_D);
+  }
+  printf("memory map done\n");
+  char *w_ptr = (char *)(0x1100000000UL);
+  char *r_ptr = (char *)(0x1200000000UL);
   char *fault_ptr[100] = {0};
   for (int i = 0; i < 100; i++) {
     fault_ptr[i] = (char *)(addr + 0x1000 * i);

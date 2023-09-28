@@ -50,6 +50,13 @@ void __am_init_cte64() {
   // protect 0x240000000 + 0x100
   enable_pmp_TOR(4, 0x2040000000, 0x100, 0, 0);
   //printf("pmp TOR inited\n");
+#elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+// protect 0x210000000 + 0x10000 for test purpose
+  enable_pmp(1, 0x1010000000, 0x10000, 0, 0);
+  // printf("pmp NA inited\n");
+  // protect 0x240000000 + 0x100
+  enable_pmp_TOR(4, 0x1040000000, 0x100, 0, 0);
+  //printf("pmp TOR inited\n");
 #else
   // invalid arch
 #endif

@@ -192,6 +192,17 @@ void pmp_test() {
   volatile int *a = (int *)(0x2010000040UL);
   *a = 1; // should trigger a fault
   result_check();
+#elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+  // TODO: update pmp test for southlake
+  pmp_store_access_fault_to_be_reported = 0;
+  int *b = (int *)(0x1030000000UL);
+  *b = 1; // should not trigger a fault
+  result_check();
+
+  pmp_store_access_fault_to_be_reported = 1;
+  volatile int *a = (int *)(0x1010000040UL);
+  *a = 1; // should trigger a fault
+  result_check();
 #else
   // invalid arch
   printf("invalid arch\n");

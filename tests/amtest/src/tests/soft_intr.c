@@ -2,7 +2,7 @@
 #include <xs.h>
 #include <nemu.h>
 
-#if defined(__ARCH_RISCV64_NOOP) || defined(__ARCH_RISCV64_XS) || defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH)
+#if defined(__ARCH_RISCV64_NOOP) || defined(__ARCH_RISCV64_XS) || defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) || defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
 #define CLINT_SOFT_ADDRESS (RTC_ADDR - 0xbff8)
 #else
 #define CLINT_SOFT_ADDRESS 0xa2000000

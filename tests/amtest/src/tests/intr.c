@@ -17,7 +17,7 @@ void hello_intr() {
   printf("  t = timer, d = device, y = yield\n");
   _intr_write(1);
   // printf("hello intr written\n");
-#if defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH)
+#if defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) || defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
   for (volatile int i = 0; i < 512; i++) ;
   _yield();
 #else
