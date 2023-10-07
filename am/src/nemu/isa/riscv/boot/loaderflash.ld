@@ -1,6 +1,6 @@
 MEMORY {
   FLASH (rxa) : ORIGIN = 0x10000000, LENGTH = 16M
-  RAM (rwxa) : ORIGIN = 0x80000000, LENGTH = 64M
+  RAM (rwxa) : ORIGIN = 0x100000000, LENGTH = 64M
 }
 
 ENTRY(_start)
