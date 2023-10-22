@@ -22,10 +22,10 @@
 #define PLIC_BASE_ADDR         (0x1f1c000000UL)
 #elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
 #define MAX_EXTERNAL_INTR      256UL
-#define INTR_GEN_ADDR          (0xf00060000UL)
+#define INTR_GEN_ADDR          (0x37020000UL)
 #define INTR_RANDOM            (INTR_GEN_ADDR + (MAX_EXTERNAL_INTR / 8))
 #define INTR_RANDOM_MASK       (INTR_GEN_ADDR + (MAX_EXTERNAL_INTR / 8) * 2)
-#define PLIC_BASE_ADDR         (0xf1c000000UL)
+#define PLIC_BASE_ADDR         (0x3c000000UL)
 #endif
 
 extern int __am_ncpu;
