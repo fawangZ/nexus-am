@@ -1,9 +1,9 @@
-// uart IO is disabled to speed up SoC test 
+// uart IO is disabled to speed up SoC test
 
 #include <riscv.h>
 #include <klib.h>
 
-#define UARTLITE_MMIO 0x1f00050000
+#define UARTLITE_MMIO 0x37000000
 #define UARTLITE_RX_FIFO  0x0
 #define UARTLITE_TX_FIFO  0x4
 #define UARTLITE_STAT_REG 0x8

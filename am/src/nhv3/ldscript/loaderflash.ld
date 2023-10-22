@@ -1,5 +1,5 @@
 MEMORY {
-  FLASH (rxa) : ORIGIN = 0xffff80000, LENGTH = 16M
+  FLASH (rxa) : ORIGIN = 0x20000, LENGTH = 128K
   RAM (rwxa) : ORIGIN = 0x1000000000, LENGTH = 64M
 }
 
