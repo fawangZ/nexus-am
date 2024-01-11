@@ -194,7 +194,7 @@ void sv39_ppn_af_test() {
   char *fault_ptr[100] = {0};
   for (int i = 0; i < 100; i++) {
     fault_ptr[i] = (char *)(addr + 0x1000 * i);
-  }}
+  }
 #else
   // invalid arch
   _halt(1);
