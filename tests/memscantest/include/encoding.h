@@ -164,7 +164,11 @@
 #define CLINT_BASE         0x02000000
 #define CLINT_SIZE         0x000c0000
 #define EXT_IO_BASE        0x40000000
+#if defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+#define DRAM_BASE          0x1000000000
+#else
 #define DRAM_BASE          0x80000000
+#endif
 
 /* page table entry (PTE) fields */
 #define PTE_V     0x001 /* Valid */
