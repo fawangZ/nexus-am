@@ -16,21 +16,22 @@ typedef struct __attribute__((__packed__)) {
 } dma_state;
 
 typedef struct {
-  uint64_t data[8];
+  uint64_t data[4];
   dma_state state;
   uint64_t address;
-  uint64_t mask;
-  uint64_t reserved[5];
+  uint32_t mask;
+  uint32_t mask_reserved;
+  uint64_t reserved;
 } dma_mshr;
 
 // CHANGE this according to the memory map
-volatile dma_mshr *mshr = (volatile dma_mshr *)0x1f00070000UL;
-volatile uint64_t *mshr_valid = (volatile uint64_t *)0x1f00072000UL;
+volatile dma_mshr *mshr = (volatile dma_mshr *)0x37030000UL;
+volatile uint64_t *mshr_valid = (volatile uint64_t *)0x37032000UL;
 
 // 4GB - 6GB
-volatile uint8_t *memory = (volatile uint8_t *)0x2100000000UL;
+volatile uint8_t *memory = (volatile uint8_t *)0x1100000000UL;
 // 6GB - 8GB
-volatile uint8_t *ref_memory = (volatile uint8_t *)0x2180000000UL;
+volatile uint8_t *ref_memory = (volatile uint8_t *)0x1180000000UL;
 
 inline void riscv_fence() {
   asm volatile("fence");
@@ -52,7 +53,7 @@ inline uint64_t random_memory_offset() {
 
 void dma_test() {
   assert(sizeof(dma_state) == 8);
-  assert(sizeof(dma_mshr) == 16 * 8);
+  assert(sizeof(dma_mshr) == 8 * 8);
   printf("Starting DMA Test\n");
   printf("Setting memory\n");
   // randomly touch 256K * 64B = 8MB memory
@@ -65,16 +66,16 @@ void dma_test() {
     }
     // memory[offset] = rand_num;
     // ref_memory[offset] = rand_num;
+    mshr[i].data[2] = rand_num;
     mshr[i].data[3] = rand_num;
-    mshr[i].data[5] = rand_num;
     mshr[i].state.value = s_write;
-    uint64_t address = (uint64_t)(memory + offset) ^ ((uint64_t)(memory + offset) & 0x3f);
-    mshr[i].address = (uint64_t)(memory + offset) ^ ((uint64_t)(memory + offset) & 0x3f);
+    uint64_t address = (uint64_t)(memory + offset) ^ ((uint64_t)(memory + offset) & 0x1f);
+    mshr[i].address = (uint64_t)(memory + offset) ^ ((uint64_t)(memory + offset) & 0x1f);
     assert(address == mshr[i].address);
-    mshr[i].mask = 0xff00ff000000UL;
+    mshr[i].mask = 0xffff0000UL;
     volatile uint64_t *t = (volatile uint64_t *)(mshr[i].address + (uint64_t)(ref_memory - memory));
+    t[2] = rand_num;
     t[3] = rand_num;
-    t[5] = rand_num;
   }
   riscv_fence();
   printf("Finished setting memory. Starting DMA write.\n");
@@ -93,8 +94,8 @@ void dma_test() {
   printf("Finished DMA write. Starting DMA read.\n");
   for (int i = 0; i < 64; i++) {
     uint64_t rand_num = random_number();
+    mshr[i].data[2] = rand_num;
     mshr[i].data[3] = rand_num;
-    mshr[i].data[5] = rand_num;
     mshr[i].state.value = s_read;
     // do not touch mshr.address/mask
   }
@@ -116,9 +117,9 @@ void dma_test() {
     uint64_t base_offset = (uint64_t *)mshr[i].address - (uint64_t *)memory;
     volatile uint64_t *golden = (uint64_t *)ref_memory + base_offset;
     volatile uint64_t *dut = (uint64_t *)memory + base_offset; 
-    for (int j = 0; j < 8; j++) {
+    for (int j = 0; j < 4; j++) {
       // only difftest for masked written data because original value in memory may be non-zero
-      if (j != 3 && j != 5) continue;
+      if (j != 2 && j != 3) continue;
       uint64_t dut_data = dut[j];
       uint64_t ref_data = golden[j];
       if (dut_data != ref_data || mshr[i].data[j] != ref_data) {
