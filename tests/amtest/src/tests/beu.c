@@ -22,7 +22,7 @@
 #define TEST_L3
 
 // BEU constants
-#define BEU_BASE 0x1f10010000UL
+#define BEU_BASE 0x38010000UL
 #define BEU_ENABLE_REG (BEU_BASE + 0x10UL)
 #define BEU_PLIC_INTERRUPT_REG (BEU_BASE + 0x18UL)
 

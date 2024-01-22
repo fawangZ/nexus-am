@@ -213,7 +213,7 @@ void external_intr() {
   // external_trigger(true, CONTEXT_M);
   // external_trigger(false, CONTEXT_S);
 
-#if !defined(__ARCH_RISCV64_XS_SOUTHLAKE) && !defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) || defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
+#if !defined(__ARCH_RISCV64_XS_SOUTHLAKE) && !defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) && !defined(__ARCH_RISCV64_XS_NHV3) && !defined(__ARCH_RISCV64_XS_NHV3_FLASH)
   plic_intr_init();
   random_trigger();
 #endif

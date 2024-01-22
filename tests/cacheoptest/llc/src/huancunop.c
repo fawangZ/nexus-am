@@ -6,10 +6,6 @@
 #define CACHE_CTRL_BASE 0x1f10040100
 #define CACHE_CMD_BASE 0x1f10040200
 #define HART_CTRL_RESET_REG_BASE 0x1f10001000
-#elif defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
-#define CACHE_CTRL_BASE 0xf10040100
-#define CACHE_CMD_BASE 0xf10040200
-#define HART_CTRL_RESET_REG_BASE 0xf10001000
 #else
 #define CACHE_CTRL_BASE 0x39000100
 #define CACHE_CMD_BASE 0x39000200
@@ -24,7 +20,7 @@
 #define CTRL_DATA_OFFSET 24
 #define CTRL_DIR_OFFSET 32
 #define TEST_BUFFER_SIZE 128
-#define L3_SIZE_KB (2 * 1024)
+#define L3_SIZE_KB (4 * 1024)
 #define L3_NR_WAY 8
 #define L3_NR_BANK 4
 #define OFFSET_LEN 6
@@ -106,7 +102,7 @@ void test3() {
 // Flush a cacheline (512 bit) to memory
 void flush_to_memory(uint64_t paddr) {
   // printf("l3 size is set to %d KB, nr_way is set to %d, nr_bank is set to %d, ", L3_SIZE_KB, L3_NR_WAY, L3_NR_BANK);
-  unsigned int set_size = L3_SIZE_KB * 1024 / L3_NR_BANK / L3_NR_WAY / 64;
+  unsigned int set_size = L3_SIZE_KB * 1024 / L3_NR_WAY / 64;
   unsigned int set_len = log2(set_size);
   // printf("nr_set is %u, set_len is %u\n", set_size, set_len);
 
@@ -127,7 +123,7 @@ void flush_to_memory(uint64_t paddr) {
 // Flush an n*512 bit address region to memory
 void flush_region_to_memory(uint64_t start_paddr, uint64_t size_in_byte) {
   // pre-calcuated const
-  unsigned int set_size = L3_SIZE_KB * 1024 / L3_NR_BANK / L3_NR_WAY / 64;
+  unsigned int set_size = L3_SIZE_KB * 1024 / L3_NR_WAY / 64;
   unsigned int set_len = log2(set_size);
   // printf("l3 size is set to %d KB, nr_way is set to %d, nr_bank is set to %d, ", L3_SIZE_KB, L3_NR_WAY, L3_NR_BANK);
   // printf("nr_set is %u, set_len is %u\n", set_size, set_len);
@@ -152,7 +148,7 @@ void flush_region_to_memory(uint64_t start_paddr, uint64_t size_in_byte) {
 int main() {
   printf("HuanCun op (mmio based) test. Note that --no-diff is required!\n");
   printf("HuanCun l3 size is set to %d KB, nr_way is set to %d, nr_bank is set to %d, ", L3_SIZE_KB, L3_NR_WAY, L3_NR_BANK);
-  unsigned int set_size = L3_SIZE_KB * 1024 / L3_NR_BANK / L3_NR_WAY / 64;
+  unsigned int set_size = L3_SIZE_KB * 1024 / L3_NR_WAY / 64;
   unsigned int set_len = log2(set_size);
   printf("nr_set is %u, set_len is %u\n", set_size, set_len);
   

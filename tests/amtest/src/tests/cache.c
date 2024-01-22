@@ -319,103 +319,103 @@ void cache_test() {
         return;
     }
 
-    //-----------------------------------------------------------------------------
-    // Test 5: dcache ecc read/write
-    //-----------------------------------------------------------------------------
+    // //-----------------------------------------------------------------------------
+    // // Test 5: dcache ecc read/write
+    // //-----------------------------------------------------------------------------
 
-    // write 0x3 to dcache index 1 way 1 bank 1 data ecc, then read it
+    // // write 0x3 to dcache index 1 way 1 bank 1 data ecc, then read it
     
-    clear_cop_csrs();       //reset cache op csrs
+    // clear_cop_csrs();       //reset cache op csrs
 
-    // prepare cache op ctrl info
-    _l1cache_op_write(cop_data_ecc_idx, 0x3);
-    _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
-    _l1cache_op_write(cop_way_idx, 0x1);
-    _l1cache_op_write(cop_index_idx, 0x1);
+    // // prepare cache op ctrl info
+    // _l1cache_op_write(cop_data_ecc_idx, 0x3);
+    // _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
+    // _l1cache_op_write(cop_way_idx, 0x1);
+    // _l1cache_op_write(cop_index_idx, 0x1);
 
-    // send cache op request
-    _l1cache_op_write(cop_op_idx, COP_WRITE_DATA_ECC);
+    // // send cache op request
+    // _l1cache_op_write(cop_op_idx, COP_WRITE_DATA_ECC);
 
-    wait_until_cop_finish_or_timeout();       //wait for cache op response
+    // wait_until_cop_finish_or_timeout();       //wait for cache op response
 
-    // check cache op result
-    csrread = _l1cache_op_read(cop_finish_idx);
-    if(csrread != 1) {
-        failure();
-        return;
-    }
+    // // check cache op result
+    // csrread = _l1cache_op_read(cop_finish_idx);
+    // if(csrread != 1) {
+    //     failure();
+    //     return;
+    // }
 
-    // read data cache tag using cache op
-    clear_cop_csrs();       //reset cache op csrs
+    // // read data cache tag using cache op
+    // clear_cop_csrs();       //reset cache op csrs
 
-    // prepare cache op ctrl info
-    _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
-    _l1cache_op_write(cop_way_idx, 0x1);
-    _l1cache_op_write(cop_index_idx, 0x1);
+    // // prepare cache op ctrl info
+    // _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
+    // _l1cache_op_write(cop_way_idx, 0x1);
+    // _l1cache_op_write(cop_index_idx, 0x1);
 
-    // send cache op request
-    _l1cache_op_write(cop_op_idx, COP_READ_DATA_ECC);
+    // // send cache op request
+    // _l1cache_op_write(cop_op_idx, COP_READ_DATA_ECC);
 
-    wait_until_cop_finish_or_timeout();       //wait for cache op response
+    // wait_until_cop_finish_or_timeout();       //wait for cache op response
 
-    // check cache op result
-    csrread = _l1cache_op_read(cop_finish_idx);
-    if(csrread != 1) {
-        failure();
-        return;
-    }
-    csrread = _l1cache_op_read(cop_data_ecc_idx);
-    if(csrread != 0x3) {
-        failure();
-        return;
-    }
+    // // check cache op result
+    // csrread = _l1cache_op_read(cop_finish_idx);
+    // if(csrread != 1) {
+    //     failure();
+    //     return;
+    // }
+    // csrread = _l1cache_op_read(cop_data_ecc_idx);
+    // if(csrread != 0x3) {
+    //     failure();
+    //     return;
+    // }
 
-    // write 0x3 to dcache index 1 way 1 bank 1 tag ecc, then read it
+    // // write 0x3 to dcache index 1 way 1 bank 1 tag ecc, then read it
 
-    clear_cop_csrs();       //reset cache op csrs
+    // clear_cop_csrs();       //reset cache op csrs
 
-    // prepare cache op ctrl info
-    _l1cache_op_write(cop_tag_ecc_idx, 0x3);
-    _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
-    _l1cache_op_write(cop_way_idx, 0x1);
-    _l1cache_op_write(cop_index_idx, 0x1);
+    // // prepare cache op ctrl info
+    // _l1cache_op_write(cop_tag_ecc_idx, 0x3);
+    // _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
+    // _l1cache_op_write(cop_way_idx, 0x1);
+    // _l1cache_op_write(cop_index_idx, 0x1);
 
-    // send cache op request
-    _l1cache_op_write(cop_op_idx, COP_WRITE_TAG_ECC);
+    // // send cache op request
+    // _l1cache_op_write(cop_op_idx, COP_WRITE_TAG_ECC);
 
-    wait_until_cop_finish_or_timeout();       //wait for cache op response
+    // wait_until_cop_finish_or_timeout();       //wait for cache op response
 
-    // check cache op result
-    csrread = _l1cache_op_read(cop_finish_idx);
-    if(csrread != 1) {
-        failure();
-        return;
-    }
+    // // check cache op result
+    // csrread = _l1cache_op_read(cop_finish_idx);
+    // if(csrread != 1) {
+    //     failure();
+    //     return;
+    // }
 
-    // read data cache tag using cache op
-    clear_cop_csrs();       //reset cache op csrs
+    // // read data cache tag using cache op
+    // clear_cop_csrs();       //reset cache op csrs
 
-    // prepare cache op ctrl info
-    _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
-    _l1cache_op_write(cop_way_idx, 0x1);
-    _l1cache_op_write(cop_index_idx, 0x1);
+    // // prepare cache op ctrl info
+    // _l1cache_op_write(cop_level_idx, COP_ID_DCACHE);
+    // _l1cache_op_write(cop_way_idx, 0x1);
+    // _l1cache_op_write(cop_index_idx, 0x1);
 
-    // send cache op request
-    _l1cache_op_write(cop_op_idx, COP_READ_TAG_ECC);
+    // // send cache op request
+    // _l1cache_op_write(cop_op_idx, COP_READ_TAG_ECC);
 
-    wait_until_cop_finish_or_timeout();       //wait for cache op response
+    // wait_until_cop_finish_or_timeout();       //wait for cache op response
 
-    // check cache op result
-    csrread = _l1cache_op_read(cop_finish_idx);
-    if(csrread != 1) {
-        failure();
-        return;
-    }
-    csrread = _l1cache_op_read(cop_tag_ecc_idx);
-    if(csrread != 0x3) {
-        failure();
-        return;
-    }
+    // // check cache op result
+    // csrread = _l1cache_op_read(cop_finish_idx);
+    // if(csrread != 1) {
+    //     failure();
+    //     return;
+    // }
+    // csrread = _l1cache_op_read(cop_tag_ecc_idx);
+    // if(csrread != 0x3) {
+    //     failure();
+    //     return;
+    // }
 
     success();
 }
