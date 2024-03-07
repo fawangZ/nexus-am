@@ -360,7 +360,7 @@
 
 
 #if defined(__ARCH_RISCV64_XS_SOUTHLAKE) || defined(__ARCH_RISCV64_XS_SOUTHLAKE_FLASH) || defined(__ARCH_RISCV64_XS_NHV3) || defined(__ARCH_RISCV64_XS_NHV3_FLASH)
-#define NUMBER_OF_RUNS		2 /* Default number of runs, reduced for fast test */
+#define NUMBER_OF_RUNS		1000 /* Default number of runs, reduced for fast test */
 #else
 #define NUMBER_OF_RUNS		500000 /* Default number of runs */
 #endif
